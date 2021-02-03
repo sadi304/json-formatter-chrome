@@ -1,0 +1,24 @@
+<!doctype html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+<script type="text/javascript" src="script.js" defer></script>
+<body style="width: 400px;">
+	<div class="container">
+		<div class="message is-link m-0">
+			<div class="message-header is-radiusless">
+				<p>Format JSON!</p>
+			</div>
+		</div>
+		<div class="box">
+			<form class="form">
+				<div class="field">
+					<div class="control">
+						<textarea class="textarea json-input" placeholder="Paste JSON here.."></textarea>
+					</div>
+				</div>
+
+				<button class="button is-link">Format</button>
+			</form>
+			<div class="notification is-danger is-hidden error mt-3"></div>
+		</div>
+	</div>
+</body>
