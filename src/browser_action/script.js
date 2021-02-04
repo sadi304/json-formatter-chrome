@@ -8,37 +8,46 @@ function isJson(str) {
   return true;
 }
 
+// formatter
+function formatJson(jsonToFormat) {
+  errorElement.classList.add("is-hidden");
+  successElement.classList.add("is-hidden");
+
+  if (isJson(jsonToFormat)) {
+    const formattedJson = JSON.stringify(JSON.parse(jsonToFormat), null, "\t");
+    jsonInput.value = formattedJson;
+    navigator.clipboard.writeText(formattedJson).then(
+      function () {
+        successElement.classList.remove("is-hidden");
+      },
+      function (err) {
+        console.error("Async: Could not copy text: ", err);
+      }
+    );
+  } else {
+    errorElement.classList.remove("is-hidden");
+  }
+}
 
 // form
 const form = document.querySelector(".form");
 
-const handleSubmit = async e => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
-  errorElement.classList.add('is-hidden');
-  
-  const jsonToFormat = jsonInput.value;
-
-  if (isJson(jsonToFormat)) {
-    var formattedJson = JSON.stringify(JSON.parse(jsonToFormat), null, "\t");
-    jsonInput.value = formattedJson;
-    navigator.clipboard.writeText(formattedJson).then(function() {
-      errorElement.classList.remove('is-hidden');
-      errorElement.innerHTML = "JSON Copied!";
-    }, function(err) {
-      console.error('Async: Could not copy text: ', err);
-    });
-  } else {
-    errorElement.classList.remove('is-hidden');
-    errorElement.innerHTML = "Invalid JSON!";
-  }
-
+  formatJson(jsonInput.value);
 };
 
-form.addEventListener("submit", e => handleSubmit(e));
+form.addEventListener("submit", (e) => handleSubmit(e));
 
-// input 
+// input
 const jsonInput = document.querySelector(".json-input");
+jsonInput.addEventListener("paste", event => {
+  event.preventDefault();
+  const value = (event.clipboardData || window.clipboardData).getData('text');
+  formatJson(value);
+});
 
 // alert
-const errorElement = document.querySelector('.error');
+const errorElement = document.querySelector(".error");
+const successElement = document.querySelector(".success");
